@@ -15,8 +15,8 @@ pygame.display.set_caption("Your Pygame Title")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 rectManager = Rect(0,0,0,0,(0,0,0))
-myRect = Rect(100,100, 32, 32, BLACK, False)
-myRects = (Rect(200,300, 32, 32, BLACK,False),Rect(100,150, 32, 32, BLACK,False),Rect(16,16, 32, 32, BLACK,False),Rect(30,300, 32, 32, BLACK,False))
+myRect = Rect(100,100, 32, 32, BLACK, False, True)
+myRects = (Rect(200,300, 32, 32, BLACK,False,True),Rect(16,16, 32, 32, BLACK,False,True),Rect(30,300, 32, 32, BLACK,False,True))
 platformY = Rect(0, 600-128, 800,128, (255, 0, 0))
 platformX = Rect(600-32, 0, 300, 600-128, (255, 0, 0))
 # Set up game variables
@@ -30,8 +30,16 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
-
+            if event.type == pygame.KEYDOWN:
+                for rects in rectManager.allRects:
+                    if event.key == pygame.K_UP:
+                            rects.gravity.change_gravity_direction((0, -1))
+                    elif event.key == pygame.K_DOWN:
+                            rects.gravity.change_gravity_direction((0, 1))
+                    elif event.key == pygame.K_LEFT:
+                            rects.gravity.change_gravity_direction((-1, 0))
+                    elif event.key == pygame.K_RIGHT:
+                            rects.gravity.change_gravity_direction((1, 0))
 
         # Update game state
         # Add any game state updates here
