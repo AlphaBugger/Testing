@@ -2,7 +2,8 @@ import pygame
 from physics import Gravity, Collision
 
 class Rect:
-    def __init__(self, x, y, width, height, color, list = []):
+    allRects = []
+    def __init__(self, x, y, width, height, color, anchored = True):
         self.x = x
         self.y = y
         self.width = width
@@ -11,10 +12,10 @@ class Rect:
         self.rect = pygame.Rect(x, y, width, height)
         self.gravity = Gravity(self, 1)
         self.collision = Collision()
-        self.list = list
+        self.anchored = anchored
+        Rect.allRects.append(self)
 
     def draw(self, surface):
-        print("test")
         pygame.draw.rect(surface, self.color, self.rect)
 
     def move(self, dx, dy):
@@ -32,8 +33,17 @@ class Rect:
 
     def get_rect(self):
         return self.rect
-    def update(self):
-        self.gravity.update()
-        from main import platform
-        self.collision.checkCollision(self, platform)
+
+    def update(self, surface):
+        if self.anchored == False:
+            self.gravity.update()
+
+        for rect in self.allRects:
+            self.collision.checkCollision(self, rect)
+        self.draw(surface)
+
+    def seeObj(self):
+        print(len(self.allRects))
+        for rect in self.allRects:
+            print(rect.x, rect.y)
 

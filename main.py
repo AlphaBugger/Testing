@@ -14,9 +14,11 @@ pygame.display.set_caption("Your Pygame Title")
 # Set up colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-myRect = Rect(400,300, 32, 32, BLACK)
-myRects = (Rect(200,300, 32, 32, BLACK),Rect(100,150, 32, 32, BLACK),Rect(16,16, 32, 32, BLACK),Rect(30,300, 32, 32, BLACK))
-platform = Rect(0, 600-32, 800,32, (255, 0, 0))
+rectManager = Rect(0,0,0,0,(0,0,0))
+myRect = Rect(100,100, 32, 32, BLACK, False)
+myRects = (Rect(200,300, 32, 32, BLACK,False),Rect(100,150, 32, 32, BLACK,False),Rect(16,16, 32, 32, BLACK,False),Rect(30,300, 32, 32, BLACK,False))
+platformY = Rect(0, 600-128, 800,128, (255, 0, 0))
+platformX = Rect(600-32, 0, 300, 600-128, (255, 0, 0))
 # Set up game variables
 # Add any variables specific to your game here
 
@@ -29,18 +31,16 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+
+
         # Update game state
         # Add any game state updates here
 
         # Draw everything
         window.fill(WHITE)  # Fill the window with white
         # Add any drawing code here
-        myRect.update()
-        for rects in myRects:
-            rects.update()
-            rects.draw(window)
-        myRect.draw(window)
-        platform.draw(window)
+        for rects in rectManager.allRects:
+            rects.update(window)
         # Update the display
         pygame.display.update()
 
